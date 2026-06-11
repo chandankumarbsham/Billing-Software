@@ -1,0 +1,92 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Software</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2">
+
+    <script>
+    function addRow() {
+        const container = document.getElementById("items");
+
+        const div = document.createElement("div");
+        div.className = "row";
+
+        div.innerHTML = `
+            <input name="product[]" placeholder="Product" required>
+            <input name="price[]" placeholder="Price" oninput="calculateTotal()" required>
+            <input name="quantity[]" placeholder="Qty" oninput="calculateTotal()" required>
+            <button type="button" class="remove" onclick="removeRow(this)">X</button>
+        `;
+
+        container.appendChild(div);
+    }
+
+    function removeRow(btn) {
+        btn.parentElement.remove();
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let prices = document.getElementsByName("price[]");
+        let qtys = document.getElementsByName("quantity[]");
+
+        let total = 0;
+
+        for (let i = 0; i < prices.length; i++) {
+            let p = parseFloat(prices[i].value) || 0;
+            let q = parseFloat(qtys[i].value) || 0;
+            total += p * q;
+        }
+
+        document.getElementById("grandTotal").innerText = total;
+    }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🧾 Billing Software</h1>
+
+<form action="/add_bill" method="POST">
+
+    <input name="customer" placeholder="Customer Name" required>
+
+    <input 
+        name="phone" 
+        placeholder="Phone Number" 
+        pattern="[0-9]{10}" 
+        maxlength="10"
+        required>
+
+    <div id="items">
+        <div class="row">
+            <input name="product[]" placeholder="Product" required>
+            <input name="price[]" placeholder="Price" oninput="calculateTotal()" required>
+            <input name="quantity[]" placeholder="Qty" oninput="calculateTotal()" required>
+        </div>
+    </div>
+
+    <div class="total-box">
+        Grand Total: ₹ <span id="grandTotal">0</span>
+    </div>
+
+    <div class="button-group">
+        <button type="button" class="add" onclick="addRow()">+ Add Item</button>
+        <button type="submit" class="generate">Generate Bill</button>
+    </div>
+
+</form>
+
+<div class="button-group">
+    <a href="/history">
+        <button type="button" class="history">View History</button>
+    </a>
+</div>
+
+</div>
+
+</body>
+</html>

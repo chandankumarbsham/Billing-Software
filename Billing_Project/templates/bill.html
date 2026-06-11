@@ -1,0 +1,56 @@
+<!-- bill.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Bill</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2">
+
+    <style>
+    @media print {
+        button, a {
+            display: none;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>✅ Final Bill</h2>
+
+<h3>Customer: {{ customer }}</h3>
+<h4>📞 Phone: {{ phone }}</h4>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Qty</th>
+    <th>Total</th>
+</tr>
+
+{% for item in cart %}
+<tr>
+    <td>{{ item.product }}</td>
+    <td>{{ item.price }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ item.total }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<h3>💰 Grand Total: ₹ {{ total }}</h3>
+
+<button class="print-btn" onclick="window.print()">🖨 Print Bill</button>
+
+<br><br>
+
+<a href="/">New Bill</a>
+
+</div>
+
+</body>
+</html>

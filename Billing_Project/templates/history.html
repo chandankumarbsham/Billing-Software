@@ -1,0 +1,41 @@
+<!-- history.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📊 Bill History</h2>
+
+<table>
+<tr>
+    <th>ID</th>
+    <th>Total</th>
+    <th>Date</th>
+</tr>
+
+{% for bill in bills %}
+<tr>
+    <td>{{ bill[0] }}</td>
+    <td>₹ {{ bill[1] }}</td>
+    <td>{{ bill[2] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<div class="button-group">
+    <a href="/">
+        <button>Back</button>
+    </a>
+</div>
+
+</div>
+
+</body>
+</html>
